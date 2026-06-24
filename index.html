@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Şehrin Efendileri - Oyuncu Kartı</title>
 
-    <!-- Sosyal Medya Önizleme (OG Tags) -->
     <meta property="og:title" content="Şehrin Efendileri - Oyuncu Kartı">
     <meta property="og:description" content="Senin istatistiklerin sunucunun efendisi olmaya yetecek mi? Hemen sorgula ve meydan oku!">
     <meta property="og:image" content="banner.jpg">
     <meta property="og:type" content="website">
 
-    <!-- Harici Kütüphaneler -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -210,7 +208,8 @@ async function fetchPlayerStats(overrideNick = null){
         
         document.getElementById('card-nick').innerText = p.nick;
         
-        const newUrl = "https://sehrinefendileri.github.io/sehrin-efendileri-oyuncu-karti/?nick=" + encodeURIComponent(p.nick);
+        // Düzeltilen Kısım: Sadece parametreyi push ediyoruz.
+        const newUrl = "?nick=" + encodeURIComponent(p.nick);
         window.history.pushState({ path: newUrl }, '', newUrl);
 
         const card = document.getElementById('player-card');
@@ -251,7 +250,9 @@ async function fetchPlayerStats(overrideNick = null){
 function copyShareLink() {
     const nickEl = document.getElementById('card-nick');
     if (!nickEl.innerText) return;
-    const shareUrl = "https://sehrinefendileri.github.io/sehrin-efendileri-oyuncu-karti/?nick=" + encodeURIComponent(nickEl.innerText);
+    
+    // Düzeltilen Kısım: Mevcut url üzerinden dinamik link oluşturuyoruz.
+    const shareUrl = window.location.origin + window.location.pathname + "?nick=" + encodeURIComponent(nickEl.innerText);
     navigator.clipboard.writeText(shareUrl).then(() => {
         alert("Discord paylaşım linki kopyalandı!");
     });
